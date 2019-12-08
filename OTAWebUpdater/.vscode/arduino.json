@@ -1,0 +1,7 @@
+{
+    "board": "esp32:esp32:esp32wrover",
+    "configuration": "PartitionScheme=default,FlashMode=qio,FlashFreq=80,UploadSpeed=921600,DebugLevel=none",
+    "sketch": "OTAWebUpdater.ino",
+    "output": "./build",
+    "port": "COM17"
+}
