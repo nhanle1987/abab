@@ -40,3 +40,5 @@ $('.inner-warpper').bind('touchstart touchmove touchend', evt => {
 	evt.preventDefault();
 	evt.stopPropagation();
 });
+
+// _.debounce
