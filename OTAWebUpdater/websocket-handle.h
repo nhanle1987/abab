@@ -1,9 +1,5 @@
 #include <Arduino.h>
 
-#include <WiFi.h>
-#include <WiFiMulti.h>
-#include <WiFiClientSecure.h>
-
 #include <WebSocketsServer.h>
 
 #define WEBSOCKET_PORT 86
@@ -12,6 +8,7 @@ WebSocketsServer webSocket = WebSocketsServer(WEBSOCKET_PORT);
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
 {
+    const char *pl = (const char *)payload;
     switch (type)
     {
     case WStype_DISCONNECTED:
@@ -26,7 +23,8 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
     }
     break;
     case WStype_TEXT:
-        // webSocket.sendTXT(num, "message here");
+        Serial.println(pl);
+        webSocket.sendTXT(num, pl);
 
         // webSocket.broadcastTXT("message here");
         break;

@@ -1,3 +1,5 @@
+var connection = new WebSocket('ws://192.168.1.66:86');
+
 const gearContainer = $('.gear');
 const steeringContainer = $('.steering');
 const steeringIndicator = steeringContainer.find('.indicator');
@@ -67,3 +69,14 @@ $('.inner-warpper').bind('touchstart touchmove touchend', evt => {
 });
 
 // _.debounce
+connection.onopen = function () {
+	connection.send('Ping'); // Send the message 'Ping' to the server
+	console.log('Connected!');
+};
+connection.onclose = connection.onerror = function (error) {
+	console.log('WebSocket Error ' + error);
+	connection.close();
+};
+connection.onmessage = function (e) {
+	console.log('server', e.data);
+}
