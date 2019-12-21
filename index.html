@@ -1,208 +1,37 @@
-<!DOCTYPE html><html >
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-		<title>S.G</title>
-		<style>
-			html, body {
-				font-family: tahoma;
-				padding: 0;
-				margin: 0;
-				overflow: hidden;
-				width: 100%;
-				height: 100%;
-				background-color: #000;
+<!DOCTYPE html>
+<html>
 
-				-webkit-touch-callout: none;
-				-webkit-user-select: none; /* Webkit */
-				-moz-user-select: none;    /* Firefox */
-				-ms-user-select: none;     /* IE 10  */
+<head>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="manifest.json">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <title>S.G</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
 
-				/* Currently not supported in Opera but will be soon */
-				-o-user-select: none;
-				user-select: none; 
-			}
-			.status-box {
-				float: left;
-				display: inline-block;
-				height: 15px;
-				line-height: 15px;
-				box-sizing: border-box;
-				font-size: 12px;
-				background-color: black;
-				text-align: center;
-				font-weight: bold;
-			}
-			.status-box span {
-				color: red;
-			}
-			.status {
-				background-color: #B5FFB5;
-				width: 100%;
-				color: #f00;
-				font-weight: bold;
-				text-align: left;
-			}
-			.status-wrapper {
-				width: 100%;
-				float: left;
-				z-index: 8;
-			}
-			.status-wrapper.active {
-				background-color: red;
-			}
-			
-			#streaming-img {
-				width: 100%;
-				height: 100%;
-				float: left;
-				background-size: contain;
-				background-repeat: no-repeat;
-				background-position: center;
-			}
-			.firmware_update {
-				position: fixed;
-				left: 0;
-				z-index: 9;
-				background-color: white;
-			}
-			form.firmware_update {
-				top: 0;
-			}
-			iframe.firmware_update {
-				top: 30px;
-			}
-			.reset {
-				padding: 10px 5px;
-				color: #09F;
-				background-color: yellow;
-				display: block;
-			}
+<body>
+    <div class="fixed-wrapper">
+        <div class="inner-warpper">
+            <div class="steering">
+                <div class="inner-wrapper">
+                    <div class="val">0</div>
+                    <div class="indicator"></div>
+                    <div class="action-msk"></div>
+                </div>
+            </div>
+            <div class="gear">
+                <div class="inner-wrapper">
+                    <div class="val">0</div>
+                    <div class="indicator"></div>
+                    <div class="action-msk"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="jquery-3.2.0.min.js"></script>
+    <script src="lodash.js"></script>
+    <script src="script.js"></script>
+</body>
 
-			.group-control {
-				border: #FF9600 1px dashed;
-				padding: 10px;
-				text-align: left;
-				margin-top: 10px;
-				float: left;
-				clear: both;
-			}
-
-			.controller {
-				display: inline-block;
-				width: 80px;
-				height: 80px;
-				margin: 5px;
-				background-color: #FFF;
-				font-weight: bold;
-				text-align: center;
-				line-height: 80px;
-			}
-
-			.controller.active {
-				background-color: #00FFD9;
-			}
-
-			.group-sensor {
-				border: #42FF00 1px dashed;
-				padding: 10px;
-				padding-right: 0;
-				text-align: left;
-				margin-top: 10px;
-				float: left;
-				clear: both;
-			}
-
-			.sensor {
-				display: inline-block;
-				width: 30px;
-				height: 20px;
-				margin-right: 10px;
-				background-color: #FFF;
-				text-align: center;
-			}
-
-			.sensor.active {
-				display: inline-block;
-				width: 30px;
-				height: 20px;
-				margin-right: 10px;
-				background-color: #F00;
-				text-align: center;
-			}
-
-			.group-function, .group-timer {
-				border: #42FF00 1px dashed;
-				padding: 5px;
-				/*padding-right: 0;*/
-				text-align: left;
-				margin-top: 20px;
-				float: left;
-				clear: both;
-			}
-			.function {
-				display: inline-block;
-				/*width: 80px;*/
-				padding: 0 20px;
-				height: 40px;
-				margin: 5px;
-				background-color: #8BC34A;
-				font-weight: bold;
-				text-align: center;
-				line-height: 40px;
-				color: #FFF;
-			}
-		</style>
-		<link rel="stylesheet" type="text/css" href="daterangepicker/daterangepicker.css" />
-	</head>
-	<body>
-		<div class="status-wrapper">
-			<div class="status-box status"></div>
-		</div>
-		<div class="group-control">
-			<div class="controller" id="arm">
-				ARMING
-			</div>
-			<div class="controller" id="light">
-				LIGHT
-			</div>
-			<div class="controller" id="horn">
-				HORN
-			</div>
-		</div>
-		<div id="group-sensor" class="group-sensor"></div>
-		<div class="group-function">
-			<div class="function" id="reset-sensor-status">
-				Reset Sensor Status
-			</div>
-			<div class="function" id="toggle-autolight">
-				Reset Sensor Status
-			</div>
-			<div class="function" id="clear-all-connection">
-				Clear Connection
-			</div>
-		</div>
-		<div class="group-timer">
-		</div>
-		<!-- <form class="firmware_update" method="POST" action="http://h-cm.ddns.net:8080/update" enctype="multipart/form-data"  target="output_frame"> -->
-		<form class="firmware_update" id="form-update" method="POST" action="" enctype="multipart/form-data"  target="output_frame">
-		<!-- <form class="firmware_update" method="POST" action="http://192.168.1.114/update" enctype="multipart/form-data"  target="output_frame"> -->
-			<input type="file" name="update" />
-			<input type="submit" value="Update" />
-		</form>
-		<!-- <img id="streaming-img" src="" /> -->
-		<div id="streaming-img">&nbsp;</div>
-		<script src="jquery-3.2.0.min.js"></script>
-        <script src="daterangepicker/moment.min.js"></script>
-        <script src="daterangepicker/daterangepicker.js"></script>
-		<script src="templates.js"></script>
-		<script src="script.js"></script>
-		<br />
-		<iframe class="firmware_update" name="output_frame" src="" id="output_frame" width="500" height="40">
-		</iframe>
-		<a class="reset firmware_update" id="firmware-update" href="" target="_blank">Reset</a>
-		<input type="text" name="dates" value="01/01/2018 - 01/15/2018" />
-
-	</body>
 </html>

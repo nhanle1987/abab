@@ -8,7 +8,6 @@
 #include <ESP8266HTTPUpdateServer.h>
 
 #include "websocket-handle.h"
-#include "output.h"
 
 #ifndef STASSID
 #define STASSID "HelloKitty"
