@@ -1,5 +1,22 @@
-const searchParams = new URLSearchParams(window.location);
-var ip = some.get('ip');
+const searchParams = function () {
+	function urldecode(str) {
+		return decodeURIComponent((str + '').replace(/\+/g, '%20'));
+	}
+
+	function transformToAssocArray(prmstr) {
+		var params = {};
+		var prmarr = prmstr.split("&");
+		for (var i = 0; i < prmarr.length; i++) {
+			var tmparr = prmarr[i].split("=");
+			params[tmparr[0]] = urldecode(tmparr[1]);
+		}
+		return params;
+	}
+
+	var prmstr = window.location.search.substr(1);
+	return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+}();
+var ip = searchParams['ip'];
 // var ie = some.has('ie') // true
 
 var connection = new WebSocket(`ws://${ip ? ip : '192.168.1.66'}:86`);
