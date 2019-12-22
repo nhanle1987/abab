@@ -1,4 +1,8 @@
-var connection = new WebSocket('ws://192.168.1.66:86');
+const searchParams = new URLSearchParams(window.location);
+var ip = some.get('ip');
+// var ie = some.has('ie') // true
+
+var connection = new WebSocket(`ws://${ip ? ip : '192.168.1.66'}:86`);
 
 const gearContainer = $('.gear');
 const steeringContainer = $('.steering');
@@ -91,12 +95,6 @@ function sendValue() {
 		String.fromCharCode(steeringObj.value > 0 ? 1 : 2) +
 		String.fromCharCode(absSteeringValue)
 	);
-	console.log((
-		String.fromCharCode(gearObj.value > 0 ? 1 : 2) +
-		String.fromCharCode(absGearValue) +
-		String.fromCharCode(steeringObj.value > 0 ? 1 : 2) +
-		String.fromCharCode(absSteeringValue)
-	));
 }
 
 gearContainer
@@ -135,7 +133,7 @@ steeringContainer
 
 		const posX = evt.touches[0].clientX - steeringObj.center;
 		steeringObj.posX = posX;
-		steeringObj.value = Math.ceil((posX / steeringObj.center) * 20);
+		steeringObj.value = -1 * Math.ceil((posX / steeringObj.center) * 20);
 		steeringVisualize();
 		sendValue();
 	})
@@ -143,7 +141,7 @@ steeringContainer
 		// console.log(evt, evt.touches[0].clientX);
 		const posX = evt.touches[0].clientX - steeringObj.center;
 		steeringObj.posX = posX;
-		steeringObj.value = Math.ceil((posX / steeringObj.center) * 20);
+		steeringObj.value = -1 * Math.ceil((posX / steeringObj.center) * 20);
 		steeringVisualize();
 		sendValue();
 	})
